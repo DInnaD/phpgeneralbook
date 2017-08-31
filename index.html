@@ -225,10 +225,10 @@ window.onload = function(){
 					/*str += '<div class="email"><p>' + addressBook[n].email + '</p></div>';
 					str += '<div class="address"><p>' + addressBook[n].address + '</p></div>';
 					str += '<div class="city"><p>' + addressBook[n].city + '</p></div>';*/
-					str += '<div class="del"><a href="#" class="delbutton" data-id="' + n + '">More</a></div>';
-					str += '<div class="del"><a href="#" class="delbutton" data-id="' + n + '">link</a></div>';
-					str += '<div class="del"><a href="#" class="delbutton" data-id="' + n + '">E</a></div>';
-					str += '<div class="del"><a href="#" class="delbutton" data-id="' + n + '">Delete</a></div>';
+					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-angle-double-down animated"></i></a></div>';
+					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-external-link"></i></a></div>';
+					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-pencil" aria-hidden="true"></i></a></div>';
+					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-trash-o"></i></a></div>';
 					str += '</div>';
 				addBookDiv.innerHTML += str;
 			}
