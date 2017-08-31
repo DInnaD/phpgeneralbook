@@ -128,7 +128,7 @@ textarea, input[type=text]:focus {
     font-size:12px;
     text-shadow:0px 0px 1px rgba(0,0,0,0.4);
 }
-
+/*.entry .btn .btn-circle a*/
 .entry .del a {
     font-family:sans-serif;
     color:#FFF;
@@ -225,10 +225,10 @@ window.onload = function(){
 					/*str += '<div class="email"><p>' + addressBook[n].email + '</p></div>';
 					str += '<div class="address"><p>' + addressBook[n].address + '</p></div>';
 					str += '<div class="city"><p>' + addressBook[n].city + '</p></div>';*/
-					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-angle-double-down animated"></i></a></div>';
-					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-external-link"></i></a></div>';
-					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-pencil" aria-hidden="true"></i></a></div>';
-					str += '<div class="del"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-trash-o"></i></a></div>';
+					str += '<div class="btn btn-circle"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-angle-double-down animated"></i></a></div>';
+					str += '<div class="btn btn-circle"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-external-link"></i></a></div>';
+					str += '<div class="btn btn-circle"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-pencil" aria-hidden="true"></i></a></div>';
+					str += '<div class="btn btn-circle"><a href="#" class="btn btn-circle" data-id="' + n + '"><i class="fa fa-trash-o"></i></a></div>';
 					str += '</div>';
 				addBookDiv.innerHTML += str;
 			}
