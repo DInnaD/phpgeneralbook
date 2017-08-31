@@ -8,7 +8,7 @@
 </head>
 <body>
 <style> 
-input[type=text] {
+textarea, input[type=text] {
     width: 130px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -22,7 +22,7 @@ input[type=text] {
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
-input[type=text]:focus {
+textarea, input[type=text]:focus {
     width: 100%;
 }
 </style>
@@ -39,7 +39,9 @@ input[type=text]:focus {
 			<label for="city"></label><input type="text" id="city" class="formFields" placeholder="URL">
 			<label for="email"></label><input type="text" id="email" class="formFields" placeholder="john@example.com">
 			<br><br>
-			<button id="Add">Add Now</button><button id="Cancel">Cancel</button>
+			<button id="Add" class="btn btn-circle">
+		<i class="fa fa-plus" aria-hidden="true"></i></button><button id="Cancel" class="btn btn-circle">
+		<i class="fa fa-bun" aria-hidden="true"></i></button>
 		</div>
 		
 		<div class="addbook">
