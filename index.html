@@ -25,7 +25,217 @@ textarea, input[type=text] {
 textarea, input[type=text]:focus {
     width: 100%;
 }
+
+.quickadd {
+    padding:10px;
+    border-bottom:1px solid;
+}
+
+#QuickAdd {
+    padding:8px;
+    background:rgb(250,250,250);
+    border:1px dashed;
+    text-shadow:0px 0px 1px;
+}
+
+.quickaddForm {
+    height:440px;
+    padding:10px;
+    background:rgb(240,240,240);
+    overflow:hidden;
+    display:none;
+}
+
+.quickaddForm label {
+    position:relative;
+    display:block;
+    width:300px;
+    height:10px;
+    float:left;
+    font-family:sans-serif;
+    font-size:12px;
+    padding:10px;
+    font-weight:bold;
+}
+
+.quickaddForm input,textarea {
+    border:1px dashed;
+    width:50%;
+    padding:10px;
+    font-weight:bold;
+    border-radius:5px;
+    box-shadow:inset 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+#Add,#Cancel {
+    padding:10px;
+    margin:20px;
+    position:relative;
+    left:300px;
+    border:1px dashed;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.entry {
+    background:rgb(230,230,230);
+    width:960px;
+    height:40px;
+    border-bottom:1px solid;
+}
+
+
+.entry .name {
+    width:130px;
+    float:left;
+    padding:11px;
+}
+
+.entry .email {
+    width:200px;
+    float:left;
+    padding:11px;
+}
+
+
+.entry .phone {
+    width:100px;
+    float:left;
+    padding:11px;
+}
+
+.entry .address {
+    width:250px;
+    float:left;
+    padding:11px;
+}
+
+.entry .city {
+    width:100px;
+    float:left;
+    padding:11px;
+}
+
+.entry .del {
+    width:30px;
+    float:left;
+    padding:9px;
+}
+
+.entry p {
+    margin:0px;
+    font-family:sans-serif;
+    font-size:12px;
+    text-shadow:0px 0px 1px rgba(0,0,0,0.4);
+}
+
+.entry .del a {
+    font-family:sans-serif;
+    color:#FFF;
+    font-size:12px;
+    padding:5px;
+    background:rgb(255,100,100);
+    border-radius:8px;
+    text-decoration:none;
+}	
 </style>
+<script>
+window.onload = function(){
+	// Buttons
+	var quickAddBtn = document.getElementById('QuickAdd');
+	var quickAddFormDiv = document.querySelector('.quickaddForm')
+	var cancelBtn = document.getElementById('Cancel');
+	var AddBtn = document.getElementById('Add');
+	// Form Fields
+	var fullname = document.getElementById('fullname');
+	var phone = document.getElementById('phone');
+	var address = document.getElementById('address');
+	var city = document.getElementById('city');
+	var email = document.getElementById('email');
+	// Divs etc.
+	var addBookDiv = document.querySelector('.addbook');
+
+	quickAddBtn.addEventListener("click", function(){
+		// display the form div
+		quickAddFormDiv.style.display = "block";
+	});
+
+	cancelBtn.addEventListener("click", function(){
+		quickAddFormDiv.style.display = "none";
+	});
+
+	AddBtn.addEventListener("click", addToBook);
+
+	addBookDiv.addEventListener("click", removeEntry);
+
+	// Storage Array
+	var addressBook = [];
+
+	//localStorage['addbook'] = '[{"fullname":"Sachin B","email":"sachin@frameboxx.in","phone":"93828292","address":"something","city":"Chandigarh"}]';
+
+	function jsonStructure(fullname,phone,address,city,email){
+		this.fullname = fullname;
+		this.phone = phone;
+		this.address = address;
+		this.city = city;
+		this.email = email;
+	}
+
+	function addToBook(){
+		var isNull = fullname.value!='' && phone.value!='' && address.value!='' && city.value!='' && email.value!='';
+		if(isNull){
+			// format the input into a valid JSON structure
+			var obj = new jsonStructure(fullname.value,phone.value,address.value,city.value,email.value);
+			addressBook.push(obj);
+			localStorage['addbook'] = JSON.stringify(addressBook);
+			quickAddFormDiv.style.display = "none";
+			clearForm();
+			showAddressBook();
+		}
+	}
+
+	function removeEntry(e){
+		// Remove an entry from the addressbook
+		if(e.target.classList.contains('delbutton')){
+			var remID = e.target.getAttribute('data-id');
+			addressBook.splice(remID,1);
+			localStorage['addbook'] = JSON.stringify(addressBook);
+			showAddressBook();
+		}
+	}
+
+	function clearForm(){
+		var formFields = document.querySelectorAll('.formFields');
+		for(var i in formFields){
+			formFields[i].value = '';
+		}
+	}
+
+	function showAddressBook(){
+		if(localStorage['addbook'] === undefined){
+			localStorage['addbook'] = '';
+		} else {
+			addressBook = JSON.parse(localStorage['addbook']);
+			// Loop over the array addressBook and insert into the page
+			addBookDiv.innerHTML = '';
+			for(var n in addressBook){
+				var str = '<div class="entry">';
+					str += '<div class="name"><p>' + addressBook[n].fullname + '</p></div>';
+					str += '<div class="email"><p>' + addressBook[n].email + '</p></div>';
+					str += '<div class="phone"><p>' + addressBook[n].phone + '</p></div>';
+					str += '<div class="address"><p>' + addressBook[n].address + '</p></div>';
+					str += '<div class="city"><p>' + addressBook[n].city + '</p></div>';
+					str += '<div class="del"><a href="#" class="delbutton" data-id="' + n + '">Delete</a></div>';
+					str += '</div>';
+				addBookDiv.innerHTML += str;
+			}
+		}
+	}
+
+	showAddressBook();
+
+}	
+</script>	
 	<div class="container">
 		<!--div class="title">
 			<h1>Address Book</h1>
