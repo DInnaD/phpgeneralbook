@@ -143,7 +143,11 @@ textarea, input[type=text]:focus {
 window.onload = function(){
 	// Buttons
 	var quickAddBtn = document.getElementById('QuickAdd');
-	var quickAddFormDiv = document.querySelector('.quickaddForm')
+	var quickAddBtn1 = document.getElementById('QuickAdd1');
+	
+	var quickAddFormDiv = document.querySelector('.quickaddForm');
+	var quickAddFormDiv1 = document.querySelector('.quickaddForm1');
+	
 	var cancelBtn = document.getElementById('Cancel');
 	var AddBtn = document.getElementById('Add');
 	// Form Fields
@@ -159,11 +163,19 @@ window.onload = function(){
 		// display the form div
 		quickAddFormDiv.style.display = "block";
 	});
+	quickAddBtn1.addEventListener("click", function(){
+		// display the form div
+		quickAddFormDiv1.style.display = "block";
+	});
 
 	cancelBtn.addEventListener("click", function(){
 		quickAddFormDiv.style.display = "none";
 	});
 
+	
+	
+
+	
 	AddBtn.addEventListener("click", addToBook);
 
 	addBookDiv.addEventListener("click", removeEntry);
