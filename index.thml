@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!--
+$('div').hide(); //прячет все дивы на странице
+$('div[name="lol"]').hide();  //прячет только те дивы, у которых есть name="lol" 
+$('[name="lol"]').hide();  //прячет все элементы, у которых есть name="lol"
+Нужно понимать логику работы: сначала идёт выборка всех элементов - получаем набор объектов, а потом разом у всех получаем один html(), но у элементов нет одного общего на всех кода. Также нельзя получить, например, высоту каждого из блоков разом (если высота не задана в стилях для всех ) -так как у них нет общей высоты. Т.е. то, что индивидуально нужно получать в цикле. 
+Ваш пример - поступают таким образом:
+JavascriptВыделить код
+var kod="";   
+$('.dd').each(function(){
+var dd = $(this).html()
+kod=kod+dd;
+});            
+alert(kod);
+$('.dd').hide();-->
+<!--
+1 grupa na back-end Danylevska Inna , @media dopyshu do 10 chysla, , view: https://dinnad.github.io/danylevskafinal/ html: https://github.com/DInnaD/danylevskafinal/blob/master/indexfinal.html css: https://github.com/DInnaD/danylevskafinal/blob/master/css/stylefinal.css
+-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>GeneralBook</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="libs/font-awesome-4.7.0/css/font-awesome.min.css">
+	<script src="https://use.fontawesome.com/053cca04b2.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.js"></script>
+</head>
+
+<!--script>
+function CountryChange() {
+      
+      if (document.getElementById("statebox").style.display == "block") 
+      {
+        document.getElementById('statebox').style.display = 'none';
+        document.getElementById('statebox').style.visibility = 'none';
+      }
+      else 
+      {
+        document.getElementById('statebox').style.display = 'block';
+        document.getElementById('statebox').style.visibility = 'visible';
+      }
+        
+    }
+    </script>       
+		
+!-- BOX to switch on/off --
+    <div class="control-group" id="statebox" name="statebox" style="display: none">
+         <label class="control-label">Bla Bla Bla...</label>
+    </div>
+    !-- Pic to click --
+    <img onclick="javascript:CountryChange()" src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png" name="picpincountry"/-->
+
+
+
+
+  <body onload="fetchBookmarks()">
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+
+        </nav>
+        <h3 class="text-muted">Bookmarker</h3>
+      </div>
+
+      <div class="jumbotron">
+        
+        <form id="myForm">
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sName" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sPhone" placeholder="Phone">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sEmail" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sUrl" placeholder="URL">
+          </div>
+          <button type="submit" class="btn btn-circle">Submit</button>
+        </form>
+      </div>
+
+
+
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+          <div id="bookmarksResults"></div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p></p>
+      </footer>
+
+    </div> <!-- /container -->
+    <script type="text/javascript">
+
+;(function(global){
+
+   let AddressBook = function(name,phone,email,url){
+     return new AddressBook.init(name,phone,email,url);
+   };
+   
+   AddressBook.prototype = {
+     //default functions
+     data:[
+       //add data here
+     ],
+     searchResults:[
+       
+     ],
+     addNewContact:function(name,phone,email,url){
+       this.data.push({
+         name: sName,
+         phone: sPhone,
+         email: sEmail,
+         url: sUrl
+       });
+       return this;
+     },
+     save:function(){
+       //save to local storage. This isn't hugely necessary
+       
+     },
+     returnAll:function(){
+       return this.data;
+     },
+     displayData:function(){
+       this.log(this.data);
+       return this;
+     },
+     log:function(data){
+       console.log(data);
+       return this;
+     },
+     search:function(searchTerm){
+       if(this.data.length){
+         for(var i=0;i<this.data.length;i++){
+           if(this.data[i].name.toLowerCase() == searchTerm.toLowerCase() || this.data[i].phone.toLowerCase() == searchTerm.toLowerCase() || this.data[i].mail.toLowerCase() == searchTerm.toLowerCase() this.data[i].url.toLowerCase() == searchTerm.toLowerCase()){
+             console.error(this.data[i]);
+             this.searchResults.push(this.data[i]);
+           }
+         }
+         
+         return this.searchResults;
+
+
+
+      /* }else if(this.data.length){
+         for(var i=0;i<this.data.length;i++){
+           if(this.data[i].name.toLowerCase() == searchTerm.toLowerCase()){
+             console.error(this.data[i]);
+             this.searchResults.push(this.data[i]);
+           }
+         }
+         
+         return this.searchResults;*/
+       }else{
+         console.log("There are no results");
+       }
+       return this;
+     },
+     lastResults:function(){
+       return this.searchResults;
+     }
+   } 
+   
+   AddressBook.init=function(name,phone,email,url){
+     let self = this;
+     //set up the address book
+     if(name || phone || email | url){
+       self.addNewContact(name || "", phone || "", email || "", url || "");
+     }
+     
+   }
+   
+   AddressBook.init.prototype = AddressBook.prototype;
+  
+  global.AddressBook = $ab = AddressBook;
+})(window);
+if(!window.contactList){ //check if we already have a contact list
+   window.contactList=$ab();
+  }
+
+
+let searchForm = document.getElementById('search');
+searchForm.addEventListener('submit', function(){
+  let results;
+  if(results !== undefined){
+    results = null;
+  }
+  if(!window.contactList){
+    window.contactList = $ab();
+  }else{
+    results = contactList.search(searchForm.search.value);
+  }
+  document.getElementById('results').innerHTML = '';
+  if(results.length>0){
+    
+    for(let i = 0;i<results.length;i++){
+      document.getElementById('results').innerHTML += '<div class="contact-item">Name:'+results[i].name+'<br>Phone:'+results[i].phone+'<br>Mail:'+results[i].phone+'<br>URL:'+results[i].url+'</div>' + '<div><a class="btn btn-default" target="_blank" href="'+url+'">Visit</a> ' +
+                                  ' <a onclick="editBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Edite</a> ' +
+                                  ' <a onclick="deleteBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Delete</a> ' +
+                                  '</h3>'+;
+    }
+  } else{
+   document.getElementById('results').innerHTML += '<hr><div class="contact-item">There are no results for this name</div><hr>';
+  }
+  
+  //do something with the results
+  event.preventDefault();
+});
+// Listen for form submit
+document.getElementById('myForm').addEventListener('submit', saveBookmark);
+// Save Bookmark
+function saveBookmark(e){
+  // Get form values
+  let sName =document.getElementById('sName').value;
+  let sPhone =document.getElementById('sPhone').value;
+  let sMail =document.getElementById('sEmail').value;
+  let sUrl =document.getElementById('sUrl').value;
+
+  if(!validateForm(sName, sPhone, sMail, sUrl)){
+    return false;
+  }
+
+  let bookmark = {
+    name: sName,
+    phone: sPhone,
+    mail: sMail,
+    url: sUrl
+  }
+
+  /*
+    // Local Storage Test
+    localStorage.setItem('test', 'Hello World');
+    console.log(localStorage.getItem('test'));
+    localStorage.removeItem('test');
+    console.log(localStorage.getItem('test'));
+  */
+
+  // Test if bookmarks is null
+  if(localStorage.getItem('bookmarks') === null){
+    // Init array
+    let bookmarks = [];
+    // Add to array
+    bookmarks.push(bookmark);
+    // Set to localStorage
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  } else {
+    // Get bookmarks from localStorage
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+    // Add bookmark to array
+    bookmarks.push(bookmark);
+    // Re-set back to localStorage
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  }
+
+  // Clear form
+  document.getElementById('myForm').reset();
+
+  // Re-fetch bookmarks
+  fetchBookmarks();
+
+  // Prevent form from submitting
+  e.preventDefault();
+}
+
+// Delete bookmark
+function deleteBookmark(phone, mail, url){
+  // Get bookmarks from localStorage
+  let bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+  // Loop throught bookmarks
+  for(let i =0;i < bookmarks.length;i++){
+    if(bookmarks[i].url == url || bookmarks[i].phone == phone || bookmarks[i].ail == mail){
+      // Remove from array
+      bookmarks.splice(i, 1);
+    }
+  }
+  // Re-set back to localStorage
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+  // Re-fetch bookmarks
+  fetchBookmarks();
+}
+
+// Fetch bookmarks
+function fetchBookmarks(){
+  // Get bookmarks from localStorage
+  let bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+  // Get output id
+  let bookmarksResults = document.getElementById('bookmarksResults');
+
+  // Build output
+  bookmarksResults.innerHTML = '';
+  for(let i = 0; i < bookmarks.length; i++){
+    let name = bookmarks[i].name;
+    let phone = bookmarks[i].phone;
+    /*------------------------------------------look more*/
+    let mail = bookmarks[i].mail;
+    let url = bookmarks[i].url;
+
+    bookmarksResults.innerHTML += '<div class="well">'+
+                                  '<h3>'+name+phone+
+                                  //---------------------------------------------------------------more
+                                  ' <a onclick="moreBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">More</a> ' +
+                                  ' <a class="btn btn-default" target="_blank" href="'+url+'">Visit</a> ' +
+                                  ' <a onclick="editBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Edite</a> ' +
+                                  ' <a onclick="deleteBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Delete</a> ' +
+                                  '</h3>'+
+                                  '</div>';
+  }
+}
+
+// Validate Form
+function validateForm(sName, sPhone, sMail, sUrl){
+  if(!sName || !sPhone ||!sMail || !sUrl){
+    alert('Please fill in the form');
+    return false;
+  }
+
+  let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  let regex = new RegExp(expression);
+
+  if(!sUrl.match(regex) || !sPhone.match(regex) ||!sMail.match(regex)){
+    alert('Please use a valid data!');
+    return false;
+  }
+
+  return true;
+}
+
+    </script>
+<style type="text/css">
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    position: relative;
+    max-width: 730px;
+  }
+}
+.container {
+    position: relative;
+   
+  }
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  
+  .marketing{
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+</style>
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.js"
+    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+
+<div id="mymap"></div>
+	<!--div class="map-wrapper">
+      <ui-gmap-google-map><div id="mymap"></div></ui-gmap-google-map>
+  </div>	
+<style>
+	.map-wrapper {
+  position: relative;
+  height: calc(100vh - 4em - 64px);
+}
+.angular-google-map-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+-->
+	
+  <div id="contactform">
+	<style> 
+input[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 0;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 19px 10px 2px 50px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+input[type=text]:focus {
+    width: 100%;
+}
+</style>
+
+
+
+
+ 
+
+ <div class="container"  style="position: relative;">
+	  
+    <input></input><!--*******************+code +add to span***********************************************************myFavorite-->
+<hr><!---*****************************************************************myFavorite*-->
+  <div></div><!---*****************************************************************myFavorite*-->
+<hr>
+	  </div>
+<form method="GET" action="#">
+ <div id="parentId">
+ <div>
+ <input name="name_1" type="text" /> 
+ <a onclick="return deleteField(this)" href="#">[X]</a>
+ </div>
+ </div>
+ <input class="s" type="submit" value="GO!" />
+</form>
+<a onclick="return addField()" href="#">Добавить поле</a>
+<script>
+/*var searchForm = document.getElementById('search');*/
+/*var seeSearchForm = document.getElementById('search');*/
+input=document.getElementsByTagName("input")[0]
+d=document.getElementsByTagName("div")[0]
+ 
+/*input.style.width="100%"*/
+ 
+ 
+base=[ ' Служебный номер АТС 35 Отдел автоматизации систем управления предприятием АТС 7700 48-500',
+ ' Дежурные водители водители 10 Транспортный цех бокс для автомобилей № 3 1876 68-501',
+ ' Петрова Лидия Николаевна Ведущий товаровед 25 Отдел материально-технического обеспечения №3- общий кабинет товароведов 6733 83-782 7-90-06',
+ 
+]
+ 
+search=function(pattern){
+var out=[]
+var re=new RegExp(pattern, "i")
+for(var i=0; i<base.length; i++){
+if(base[i].match(re)) {
+base[i]=base[i].replace(/((\d{4} \d{2}-\d{3})|(\d{4} \d{2}-\d{3} \d{1}-\d{2}-\d{2}))$/, "<b>$1</b>")
+out.push(base[i])
+}
+ 
+}
+return out
+}
+ 
+firstSearch=function(){
+d.innerHTML=""
+input.style.color=null
+var out=search(input.value)
+if(out.length<1) return secondSearch()
+var str=out.join("<br><br>")
+d.innerHTML=str
+}
+ 
+secondSearch=function(){
+input.style.color="red"
+d.innerHTML="I don't know <b>"+input.value+"</b>"
+}
+onload=firstSearch
+input.oninput=firstSearch
+input.focus()
+onkeydown=function(){input.focus()}
+</script>
+
+<script>
+var countOfFields = 1; // Текущее число полей
+var curFieldNameId = 1; // Уникальное значение для атрибута name
+var maxFieldLimit = 5; // Максимальное число возможных полей
+function deleteField(a) {
+ // Получаем доступ к ДИВу, содержащему поле
+ var contDiv = a.parentNode;
+ // Удаляем этот ДИВ из DOM-дерева
+ contDiv.parentNode.removeChild(contDiv);
+ // Уменьшаем значение текущего числа полей
+ countOfFields--;
+ // Возвращаем false, чтобы не было перехода по сслыке
+ return false;
+}
+function addField() {
+ // Проверяем, не достигло ли число полей максимума
+ if (countOfFields >= maxFieldLimit) {
+ alert("Число полей достигло своего максимума = " + maxFieldLimit);
+ return false;
+ }
+ // Увеличиваем текущее значение числа полей
+ countOfFields++;
+ // Увеличиваем ID
+ curFieldNameId++;
+ // Создаем элемент ДИВ
+ var div = document.createElement("div");
+ // Добавляем HTML-контент с пом. свойства innerHTML
+ div.innerHTML = "<input name=\"name_" + curFieldNameId + "\" type=\"text\" /> <a onclick=\"return deleteField(this)\" href=\"#\">[X]</a>";
+ // Добавляем новый узел в конец списка полей
+ document.getElementById("parentId").appendChild(div);
+ // Возвращаем false, чтобы не было перехода по сслыке
+ return false;
+}
+</script>
+<script
+    src="https://code.jquery.com/jquery-3.1.1.js"
+    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
