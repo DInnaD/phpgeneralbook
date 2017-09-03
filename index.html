@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iGeneralBook</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body onload="fetchBookmarks()">
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+
+        </nav>
+        <h3 class="text-muted">Bookmarker</h3>
+      </div>
+
+      <div class="jumbotron">
+        
+        <form id="myForm">
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sName" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sPhone" placeholder="Phone">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sEmail" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="text" class="form-control" id="sUrl" placeholder="URL">
+          </div>
+          <button type="submit" class="btn btn-circle">Submit</button>
+        </form>
+      </div>
+
+
+
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+          <div id="bookmarksResults"></div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2016 Bookmarker, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
+    <script type="text/javascript">
+
+;(function(global){
+
+   let AddressBook = function(name,phone,email,url){
+     return new AddressBook.init(name,phone,email,url);
+   };
+   
+   AddressBook.prototype = {
+     //default functions
+     data:[
+       //add data here
+     ],
+     searchResults:[
+       
+     ],
+     addNewContact:function(name,phone,email,url){
+       this.data.push({
+         name: sName,
+         phone: sPhone,
+         email: sEmail,
+         url: sUrl
+       });
+       return this;
+     },
+     save:function(){
+       //save to local storage. This isn't hugely necessary
+       
+     },
+     returnAll:function(){
+       return this.data;
+     },
+     displayData:function(){
+       this.log(this.data);
+       return this;
+     },
+     log:function(data){
+       console.log(data);
+       return this;
+     },
+     search:function(searchTerm){
+       if(this.data.length){
+         for(var i=0;i<this.data.length;i++){
+           if(this.data[i].name.toLowerCase() == searchTerm.toLowerCase() || this.data[i].phone.toLowerCase() == searchTerm.toLowerCase() || this.data[i].mail.toLowerCase() == searchTerm.toLowerCase() this.data[i].url.toLowerCase() == searchTerm.toLowerCase()){
+             console.error(this.data[i]);
+             this.searchResults.push(this.data[i]);
+           }
+         }
+         
+         return this.searchResults;
+
+
+
+      /* }else if(this.data.length){
+         for(var i=0;i<this.data.length;i++){
+           if(this.data[i].name.toLowerCase() == searchTerm.toLowerCase()){
+             console.error(this.data[i]);
+             this.searchResults.push(this.data[i]);
+           }
+         }
+         
+         return this.searchResults;*/
+       }else{
+         console.log("There are no results");
+       }
+       return this;
+     },
+     lastResults:function(){
+       return this.searchResults;
+     }
+   } 
+   
+   AddressBook.init=function(name,phone,email,url){
+     let self = this;
+     //set up the address book
+     if(name || phone || email | url){
+       self.addNewContact(name || "", phone || "", email || "", url || "");
+     }
+     
+   }
+   
+   AddressBook.init.prototype = AddressBook.prototype;
+  
+  global.AddressBook = $ab = AddressBook;
+})(window);
+if(!window.contactList){ //check if we already have a contact list
+   window.contactList=$ab();
+  }
+
+
+let searchForm = document.getElementById('search');
+searchForm.addEventListener('submit', function(){
+  let results;
+  if(results !== undefined){
+    results = null;
+  }
+  if(!window.contactList){
+    window.contactList = $ab();
+  }else{
+    results = contactList.search(searchForm.search.value);
+  }
+  document.getElementById('results').innerHTML = '';
+  if(results.length>0){
+    
+    for(let i = 0;i<results.length;i++){
+      document.getElementById('results').innerHTML += '<div class="contact-item">Name:'+results[i].name+'<br>Phone:'+results[i].phone+'<br>Mail:'+results[i].phone+'<br>URL:'+results[i].url+'</div>' + '<div><a class="btn btn-default" target="_blank" href="'+url+'">Visit</a> ' +
+                                  ' <a onclick="editBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Edite</a> ' +
+                                  ' <a onclick="deleteBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Delete</a> ' +
+                                  '</h3>'+;
+    }
+  } else{
+   document.getElementById('results').innerHTML += '<hr><div class="contact-item">There are no results for this name</div><hr>';
+  }
+  
+  //do something with the results
+  event.preventDefault();
+});
+// Listen for form submit
+document.getElementById('myForm').addEventListener('submit', saveBookmark);
+// Save Bookmark
+function saveBookmark(e){
+  // Get form values
+  let sName =document.getElementById('sName').value;
+  let sPhone =document.getElementById('sPhone').value;
+  let sMail =document.getElementById('sEmail').value;
+  let sUrl =document.getElementById('sUrl').value;
+
+  if(!validateForm(sName, sPhone, sMail, sUrl)){
+    return false;
+  }
+
+  let bookmark = {
+    name: sName,
+    phone: sPhone,
+    mail: sMail,
+    url: sUrl
+  }
+
+  /*
+    // Local Storage Test
+    localStorage.setItem('test', 'Hello World');
+    console.log(localStorage.getItem('test'));
+    localStorage.removeItem('test');
+    console.log(localStorage.getItem('test'));
+  */
+
+  // Test if bookmarks is null
+  if(localStorage.getItem('bookmarks') === null){
+    // Init array
+    let bookmarks = [];
+    // Add to array
+    bookmarks.push(bookmark);
+    // Set to localStorage
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  } else {
+    // Get bookmarks from localStorage
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+    // Add bookmark to array
+    bookmarks.push(bookmark);
+    // Re-set back to localStorage
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  }
+
+  // Clear form
+  document.getElementById('myForm').reset();
+
+  // Re-fetch bookmarks
+  fetchBookmarks();
+
+  // Prevent form from submitting
+  e.preventDefault();
+}
+
+// Delete bookmark
+function deleteBookmark(phone, mail, url){
+  // Get bookmarks from localStorage
+  let bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+  // Loop throught bookmarks
+  for(let i =0;i < bookmarks.length;i++){
+    if(bookmarks[i].url == url || bookmarks[i].phone == phone || bookmarks[i].ail == mail){
+      // Remove from array
+      bookmarks.splice(i, 1);
+    }
+  }
+  // Re-set back to localStorage
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+  // Re-fetch bookmarks
+  fetchBookmarks();
+}
+
+// Fetch bookmarks
+function fetchBookmarks(){
+  // Get bookmarks from localStorage
+  let bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+  // Get output id
+  let bookmarksResults = document.getElementById('bookmarksResults');
+
+  // Build output
+  bookmarksResults.innerHTML = '';
+  for(let i = 0; i < bookmarks.length; i++){
+    let name = bookmarks[i].name;
+    let phone = bookmarks[i].phone;
+    /*------------------------------------------look more*/
+    let mail = bookmarks[i].mail;
+    let url = bookmarks[i].url;
+
+    bookmarksResults.innerHTML += '<div class="well">'+
+                                  '<h3>'+name+phone+
+                                  //---------------------------------------------------------------more
+                                  ' <a onclick="moreBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">More</a> ' +
+                                  ' <a class="btn btn-default" target="_blank" href="'+url+'">Visit</a> ' +
+                                  ' <a onclick="editBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Edite</a> ' +
+                                  ' <a onclick="deleteBookmark(\''+phone+mail+url+'\')" class="btn btn-danger" href="#">Delete</a> ' +
+                                  '</h3>'+
+                                  '</div>';
+  }
+}
+
+// Validate Form
+function validateForm(sName, sPhone, sMail, sUrl){
+  if(!sName || !sPhone ||!sMail || !sUrl){
+    alert('Please fill in the form');
+    return false;
+  }
+
+  let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  let regex = new RegExp(expression);
+
+  if(!sUrl.match(regex) || !sPhone.match(regex) ||!sMail.match(regex)){
+    alert('Please use a valid data!');
+    return false;
+  }
+
+  return true;
+}
+
+    </script>
+<style type="text/css">
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    position: relative;
+    max-width: 730px;
+  }
+}
+.container {
+    position: relative;
+   
+  }
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  
+  .marketing{
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+</style>
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.js"
+    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
